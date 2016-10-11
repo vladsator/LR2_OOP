@@ -130,7 +130,7 @@ namespace LR_2_code_Cch.View
             AddingStudent.StudentID = RegChecker.ToUpperInvariant();
 
             ///////////////////////////////////////////////////////////////////////////
-            reg = new Regex("^[0-9][.]*[0-9]*");
+            reg = new Regex("^[0-9][.]{0,1}[0-9]*");
             Console.Write("Enter student GPA >> ");
             RegChecker = Console.ReadLine();
             while (!reg.IsMatch(RegChecker)) // цикл если условие не выполняется.
@@ -152,7 +152,69 @@ namespace LR_2_code_Cch.View
         void FindStudent()
         {
             Console.Clear();
-            foreach(Controller.Student student in StdDB.FindStudentUsingPharameters("В", "Ч"))
+            List<string> ParamList = new List<string>();
+            //////////////////////////////////////////////////////////////////////////
+            Regex reg = new Regex("(^[А-Яа-яA-Za-z])||()");
+            string RegChecker = null;
+            Console.Write("Enter student name or subname >> ");
+            RegChecker = Console.ReadLine();
+            while (!reg.IsMatch(RegChecker)) // цикл если условие не выполняется.
+            {
+                Console.WriteLine("Не соответствует правилам, повторите попытку.");
+                Console.Write("Enter student name or subname >> ");
+                RegChecker = Console.ReadLine();
+            }
+            ParamList.Add(RegChecker);
+            //////////////////////////////////////////////////////////////////////////
+            RegChecker = null;
+            Console.Write("Enter student surname or subsurname >> ");
+            RegChecker = Console.ReadLine();
+            while (!reg.IsMatch(RegChecker)) // цикл если условие не выполняется.
+            {
+                Console.WriteLine("Не соответствует правилам, повторите попытку.");
+                Console.Write("Enter student surname or subsurname >> ");
+                RegChecker = Console.ReadLine();
+            }
+            ParamList.Add(RegChecker);
+            //////////////////////////////////////////////////////////////////////////
+            reg = new Regex("^[А-Яа-яA-Za-z] || ()");
+            RegChecker = null;
+            Console.Write("Enter student sex >> ");
+            RegChecker = Console.ReadLine();
+            while (!reg.IsMatch(RegChecker)) // цикл если условие не выполняется.
+            {
+                Console.WriteLine("Не соответствует правилам, повторите попытку.");
+                Console.Write("Enter student sex >> ");
+                RegChecker = Console.ReadLine();
+            }
+            ParamList.Add(RegChecker);
+            //////////////////////////////////////////////////////////////////////////
+            reg = new Regex("^[А-Яа-яA-Za-z0-9] || ()");
+            RegChecker = null;
+            Console.Write("Enter student subid >> ");
+            RegChecker = Console.ReadLine();
+            while (!reg.IsMatch(RegChecker)) // цикл если условие не выполняется.
+            {
+                Console.WriteLine("Не соответствует правилам, повторите попытку.");
+                Console.Write("Enter student subid >> ");
+                RegChecker = Console.ReadLine();
+            }
+            ParamList.Add(RegChecker);
+            //////////////////////////////////////////////////////////////////////////
+            reg = new Regex("^[<>=]{0,2}[0-9][.]{0,1}[0-9]* || ()");
+            RegChecker = null;
+            Console.Write("Enter sign and student GPA >> ");
+            RegChecker = Console.ReadLine();
+            while (!reg.IsMatch(RegChecker)) // цикл если условие не выполняется.
+            {
+                Console.WriteLine("Не соответствует правилам, повторите попытку.");
+                Console.Write("Enter sign and student GPA >> ");
+                RegChecker = Console.ReadLine();
+            }
+            ParamList.Add(RegChecker);
+            //////////////////////////////////////////////////////////////////////////
+
+            foreach (Controller.Student student in StdDB.FindStudentUsingPharameters(ParamList[0], ParamList[1], ParamList[2], ParamList[3], ParamList[4]))
             {
                 Console.WriteLine("{0}", student);
             }

@@ -55,11 +55,52 @@ namespace LR_2_code_Cch.Controller
             return std;
         }
 
-        public List<Student> FindStudentUsingPharameters(string subname, string subsurname)
+        public List<Student> FindStudentUsingPharameters(string subname, string subsurname, string sex, string subid, string mark_param)
         {
-            return (from item in StudentList
-                    where item.StudentName.Contains(subname) && item.StudentSurname.Contains(subsurname)
-                    select item as Student).ToList<Student>();
+            var q = (from row in StudentList select row as Student);
+            if (subname != "")
+                q = q.Where(row => row.StudentName.ToUpper().Contains(subname.ToUpper()));
+            if (subsurname != "")
+                q = q.Where(row => row.StudentSurname.ToUpper().Contains(subsurname.ToUpper()));
+            if (sex != "")
+                q = q.Where(row => row.StudentSex.ToUpper() == sex.ToUpper());
+            if (subid != "")
+                q = q.Where(row => row.StudentID.ToUpper().Contains(subid.ToUpper()));
+
+            if (mark_param != "")
+            {
+                string inequalitySign = "";
+                string num = "";
+                foreach (char ch in mark_param)
+                {
+                    if ((ch == '<') || (ch == '>') || (ch == '='))
+                    {
+                        inequalitySign += ch;
+                    }
+                    else
+                        if (Char.IsDigit(ch) || (ch == '.'))
+                    {
+                        num += ch;
+                    }
+                }
+                switch (inequalitySign)
+                {
+                    case "<":
+                        q = q.Where(row => row.StudentGPA < double.Parse(num));
+                        break;
+                    case ">":
+                        q = q.Where(row => row.StudentGPA > double.Parse(num));
+                        break;
+                    case "=":
+                        q = q.Where(row => row.StudentGPA == double.Parse(num));
+                        break;
+                    case "<>":
+                        q = q.Where(row => row.StudentGPA != double.Parse(num));
+                        break;
+                }
+            }
+            
+            return q.ToList<Student>();        
         }
 
 
