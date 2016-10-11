@@ -9,11 +9,11 @@ namespace LR_2_code_Cch.Controller
 {
     class Student : IFormattable
     {
-        public string StudentName { get; set;}
-        public string StudentSurname { get; set; }
-        public string StudentSex { get; set; } // {Male/Female}
-        public string StudentID { get; set; }   // {AA123456 (2 serial and 6 digit)}
-        public double StudentGPA { get; set; }
+        public string StudentName;
+        public string StudentSurname;
+        public string StudentSex; // {Male/Female}
+        public string StudentID;   // {AA123456 (2 serial and 6 digit)}
+        public double StudentGPA;
 
         public Student()
         {
