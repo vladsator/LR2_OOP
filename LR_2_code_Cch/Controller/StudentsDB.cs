@@ -54,12 +54,13 @@ namespace LR_2_code_Cch.Controller
             }
             return std;
         }
-        
-        //public List<Student> FindStudentUsingPharameters()
-        //{
-        //    return ;
-        //}
 
+        public List<Student> FindStudentUsingPharameters(string subname, string subsurname)
+        {
+            return (from item in StudentList
+                    where item.StudentName.Contains(subname) && item.StudentSurname.Contains(subsurname)
+                    select item as Student).ToList<Student>();
+        }
 
 
     }

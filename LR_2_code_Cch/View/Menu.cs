@@ -33,6 +33,7 @@ namespace LR_2_code_Cch.View
                     UIAddStudent();
                     break;
                 case 2:
+                    FindStudent();
                     break;
                 case 3:
                     GetStudentsList();
@@ -144,6 +145,18 @@ namespace LR_2_code_Cch.View
             //////////////////////////////////////////////////////////////////////////
             Console.WriteLine(AddingStudent);
             StdDB.AddStudent(AddingStudent);
+            Console.Clear();
+            UI_Starter();
+        }
+
+        void FindStudent()
+        {
+            Console.Clear();
+            foreach(Controller.Student student in StdDB.FindStudentUsingPharameters("В", "Ч"))
+            {
+                Console.WriteLine("{0}", student);
+            }
+            Console.ReadKey();
             Console.Clear();
             UI_Starter();
         }
