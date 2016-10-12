@@ -11,9 +11,9 @@ namespace LR_2_code_Cch.Model
     {
         string FilePath;
 
-        public StudentManipulation()
+        public StudentManipulation(string path)
         {
-            FilePath = "Students_DB.txt";
+            FilePath = path;
         }
 
         public string FilePathGetSet
@@ -40,7 +40,17 @@ namespace LR_2_code_Cch.Model
                 while ((line = file.ReadLine()) != null)
                 {
                     string[] TempSubStrings = line.Split(' ');
-                    StudentList.Add(new Controller.Student(TempSubStrings[0], TempSubStrings[1], TempSubStrings[2], TempSubStrings[3], double.Parse(TempSubStrings[4])));
+                    try
+                    {
+                        StudentList.Add(new Controller.Student(TempSubStrings[0], TempSubStrings[1], TempSubStrings[2], TempSubStrings[3], int.Parse(TempSubStrings[4]), double.Parse(TempSubStrings[5])));
+                    }
+                    catch (FormatException)
+                    {
+                        Console.WriteLine("Wrong table format (Name, Surname, Sex, ID, Cource GPA)");
+                        
+                        Console.ReadKey();
+                        return null;
+                    }
                 }
                 file.Close();
             }

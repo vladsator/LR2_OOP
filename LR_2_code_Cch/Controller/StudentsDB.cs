@@ -8,13 +8,20 @@ namespace LR_2_code_Cch.Controller
 {
     class StudentsDB
     {
+        string DefaultPath = "Students_DB.txt";
         List<Student> StudentList = new List<Student>();
-
-        Model.StudentManipulation StudentDataManipulator = new Model.StudentManipulation();
+        Model.StudentManipulation StudentDataManipulator = new Model.StudentManipulation("Students_DB.txt");
 
         public StudentsDB()
         {
             StudentList = StudentDataManipulator.ReadFile();
+        }
+
+        public int NullStringToIntParser(string str)
+        {
+            int Out;
+            int.TryParse(str, out Out);
+            return Out;
         }
 
         public void SetFilePath(string filepath)
@@ -22,6 +29,11 @@ namespace LR_2_code_Cch.Controller
             StudentDataManipulator.FilePathGetSet = filepath;
             StudentList.Clear();
             StudentList = StudentDataManipulator.ReadFile();
+            if (StudentList == null)
+            {
+                StudentDataManipulator.FilePathGetSet = DefaultPath;
+                StudentList = StudentDataManipulator.ReadFile();
+            }
         }
 
         public string GetFilePath()
@@ -55,7 +67,8 @@ namespace LR_2_code_Cch.Controller
             return std;
         }
 
-        public List<Student> FindStudentUsingPharameters(string subname, string subsurname, string sex, string subid, string mark_param)
+        
+        public List<Student> FindStudentUsingPharameters(string subname, string subsurname, string sex, string subid, int cource, string mark_param)
         {
             var q = (from row in StudentList select row as Student);
             if (subname != "")
@@ -66,6 +79,8 @@ namespace LR_2_code_Cch.Controller
                 q = q.Where(row => row.StudentSex.ToUpper() == sex.ToUpper());
             if (subid != "")
                 q = q.Where(row => row.StudentID.ToUpper().Contains(subid.ToUpper()));
+            if (cource != 0)
+                q = q.Where(row=> row.StudentCource == cource);
 
             if (mark_param != "")
             {
