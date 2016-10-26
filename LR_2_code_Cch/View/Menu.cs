@@ -14,19 +14,10 @@ namespace LR_2_code_Cch.View
         public void UI_Starter()
         {
             UIMainMenu();
-            Regex reg = new Regex("[123456]");
-            string RegChecker = null;
-            Console.Write(">>");
-            RegChecker = Console.ReadLine();
-            while (!reg.IsMatch(RegChecker)) // цикл если условие не выполняется.
-            {    
-                Console.WriteLine("Не соответствует правилам, нажмите Enter и повторите попытку.");
-                Console.ReadKey();
-                Console.Clear();
-                Console.WriteLine(">>");
-                RegChecker = Console.ReadLine();
-            }
-            int choose = int.Parse(RegChecker);
+            string reg = @"[1-6]";
+            string Question = ">>";
+            Console.Write(Question);
+            int choose = int.Parse(InputDataRegCheck(Console.ReadLine(), reg, Question));
             switch (choose)
             {
                 case 1:
@@ -62,102 +53,63 @@ namespace LR_2_code_Cch.View
             Console.WriteLine(str);
         }
 
+        public string InputDataRegCheck(string InputA, string RegFormat, string OutputQ)
+        {
+            Regex reg = new Regex(RegFormat);
+            while (!reg.IsMatch(InputA)) // цикл если условие не выполняется.
+            {
+                Console.WriteLine("Not in accordance with the rules, please try again.");
+                Console.Write(OutputQ);
+                InputA = Console.ReadLine();
+            }
+            return InputA;
+        }
+
         void UIAddStudent()
         {
             Console.Clear();
             Controller.Student AddingStudent = new Controller.Student();
-            Regex reg = new Regex("^[А-ЯA-Z]{1}[а-яa-z]");
-            string RegChecker = null;
-            Console.Write("Enter student name >>");
-            RegChecker = Console.ReadLine();
-            while (!reg.IsMatch(RegChecker)) // цикл если условие не выполняется.
-            {
-                Console.WriteLine("Not in accordance with the rules, please try again.");
-                Console.Write("Enter student name >>");
-                RegChecker = Console.ReadLine();
-
-            }
-            AddingStudent.StudentName = RegChecker;
-
+            string reg = @"^[А-ЯA-Z]{1}[а-яa-z]";
+            string Question = "Enter student name >>";
+            Console.Write(Question);
+            AddingStudent.StudentName = InputDataRegCheck(Console.ReadLine(), reg, Question);
             /////////////////////////////////////////////////////////////////////////////
-            Console.Write("Enter student surname >>");
-            RegChecker = Console.ReadLine();
-            while (!reg.IsMatch(RegChecker)) // цикл если условие не выполняется.
-            {
-                Console.WriteLine("Not in accordance with the rules, please try again.");
-                Console.Write("Enter student surname >>");
-                RegChecker = Console.ReadLine();
-
-            }
-            AddingStudent.StudentSurname = RegChecker;
-
+            Question = "Enter student surname >>";
+            Console.Write(Question);
+            AddingStudent.StudentSurname = InputDataRegCheck(Console.ReadLine(), reg, Question);
             /////////////////////////////////////////////////////////////////////////////
             List<string> MaleVariatnsLib = new List<string>();
             MaleVariatnsLib.Add("MALE");
             MaleVariatnsLib.Add("M");
-
             List<string> FemaleVariatnsLib = new List<string>();
             MaleVariatnsLib.Add("FEMALE");
             MaleVariatnsLib.Add("W");
-
-            reg = new Regex("(^[Mm]{1}(ale){1}$)|(^[Ff]{1}(emale){1}$)|(^[Mm]$)|(^[Ww]$)");
-            Console.Write("Enter student sex >>");
-            RegChecker = Console.ReadLine();
-            while (!reg.IsMatch(RegChecker)) // цикл если условие не выполняется.
-            {
-                Console.WriteLine("Not in accordance with the rules, please try again.");
-                Console.Write("Enter student sex >>");
-                RegChecker = Console.ReadLine();
-
-            }
-            if (MaleVariatnsLib.Contains(RegChecker.ToUpperInvariant()))
+            reg = @"(^[Mm]{1}(ale){1}$)|(^[Ff]{1}(emale){1}$)|(^[Mm]$)|(^[Ww]$)";
+            Question = "Enter student sex >>";
+            Console.Write(Question);
+            if (MaleVariatnsLib.Contains(InputDataRegCheck(Console.ReadLine(), reg, Question).ToUpperInvariant()))
                 AddingStudent.StudentSex = "Male";
             else
-                if (FemaleVariatnsLib.Contains(RegChecker.ToUpperInvariant()))
-                    AddingStudent.StudentSex = "Female";
-
+                if (FemaleVariatnsLib.Contains(InputDataRegCheck(Console.ReadLine(), reg, Question).ToUpperInvariant()))
+                AddingStudent.StudentSex = "Female";
             ////////////////////////////////////////////////////////////////////////////
-            reg = new Regex("^[A-Za-zА-Яа-я]{2}[0-9]{6}$");
-            Console.Write("Enter student ID >>");
-            RegChecker = Console.ReadLine();
-            while (!reg.IsMatch(RegChecker)) // цикл если условие не выполняется.
-            {
-                Console.WriteLine("Not in accordance with the rules, please try again.");
-                Console.Write("Enter student ID >>");
-                RegChecker = Console.ReadLine();
-
-            }
-            AddingStudent.StudentID = RegChecker.ToUpperInvariant();
-
+            reg = @"^[A-Za-zА-Яа-я]{2}[0-9]{6}$";
+            Question = "Enter student ID >>";
+            Console.Write(Question);
+            AddingStudent.StudentID = InputDataRegCheck(Console.ReadLine(), reg, Question).ToUpperInvariant();
             ///////////////////////////////////////////////////////////////////////////
-            reg = new Regex("[0-9]{1}");
-            Console.Write("Enter student Cource >>");
-            RegChecker = Console.ReadLine();
-            while (!reg.IsMatch(RegChecker)) // цикл если условие не выполняется.
-            {
-                Console.WriteLine("Not in accordance with the rules, please try again.");
-                Console.Write("Enter student Cource >>");
-                RegChecker = Console.ReadLine();
-
-            }
-            AddingStudent.StudentCource = int.Parse(RegChecker.ToUpperInvariant());
-
+            reg = @"[0-9]{1}";
+            Question = "Enter student Cource >>";
+            Console.Write(Question);
+            AddingStudent.StudentCource = int.Parse(InputDataRegCheck(Console.ReadLine(), reg, Question).ToUpperInvariant());
             ///////////////////////////////////////////////////////////////////////////
-
-            reg = new Regex("^[0-9][.]{0,1}[0-9]*");
-            Console.Write("Enter student GPA >>");
-            RegChecker = Console.ReadLine();
-            while (!reg.IsMatch(RegChecker)) // цикл если условие не выполняется.
-            {
-                Console.WriteLine("Not in accordance with the rules, please try again.");
-                Console.Write("Enter student GPA >>");
-                RegChecker = Console.ReadLine();
-
-            }
-            AddingStudent.StudentGPA = double.Parse(RegChecker);
-
+            reg = @"^[0-9]{0,1}[.]{0,1}[0-9]*";
+            Question = "Enter student GPA >>";/////////////////
+            Console.Write(Question);
+            AddingStudent.StudentGPA = double.Parse(InputDataRegCheck(Console.ReadLine(), reg, Question).ToUpperInvariant());
             //////////////////////////////////////////////////////////////////////////
             Console.WriteLine(AddingStudent);
+            Console.ReadKey();
             StdDB.AddStudent(AddingStudent);
             Console.Clear();
             UI_Starter();
@@ -168,77 +120,34 @@ namespace LR_2_code_Cch.View
             Console.Clear();
             List<string> ParamList = new List<string>();
             //////////////////////////////////////////////////////////////////////////
-            Regex reg = new Regex("(^[А-Яа-яA-Za-z])||()");
-            string RegChecker = null;
-            Console.Write("Enter student name or subname >>");
-            RegChecker = Console.ReadLine();
-            while (!reg.IsMatch(RegChecker)) // цикл если условие не выполняется.
-            {
-                Console.WriteLine("Not in accordance with the rules, please try again.");
-                Console.Write("Enter student name or subname >>");
-                RegChecker = Console.ReadLine();
-            }
-            ParamList.Add(RegChecker);
+            string reg = @"(^[А-Яа-яA-Za-z])||()";
+            string Question = "Enter student name or subname >>";
+            Console.Write(Question);
+            ParamList.Add(InputDataRegCheck(Console.ReadLine(), reg, Question));
             //////////////////////////////////////////////////////////////////////////
-            RegChecker = null;
-            Console.Write("Enter student surname or subsurname >>");
-            RegChecker = Console.ReadLine();
-            while (!reg.IsMatch(RegChecker)) // цикл если условие не выполняется.
-            {
-                Console.WriteLine("Not in accordance with the rules, please try again.");
-                Console.Write("Enter student surname or subsurname >>");
-                RegChecker = Console.ReadLine();
-            }
-            ParamList.Add(RegChecker);
+            Question = "Enter student surname or subsurname >>";
+            Console.Write(Question);
+            ParamList.Add(InputDataRegCheck(Console.ReadLine(), reg, Question));
             //////////////////////////////////////////////////////////////////////////
-            reg = new Regex("^[А-Яа-яA-Za-z] || ()");
-            RegChecker = null;
-            Console.Write("Enter student sex (Male/Female) >>");
-            RegChecker = Console.ReadLine();
-            while (!reg.IsMatch(RegChecker)) // цикл если условие не выполняется.
-            {
-                Console.WriteLine("Not in accordance with the rules, please try again.");
-                Console.Write("Enter student sex (Male/Female) >>");
-                RegChecker = Console.ReadLine();
-            }
-            ParamList.Add(RegChecker);
+            reg = @"^[А-Яа-яA-Za-z] || ()";
+            Question = "Enter student sex (Male/Female) >>";
+            Console.Write(Question);
+            ParamList.Add(InputDataRegCheck(Console.ReadLine(), reg, Question));
             //////////////////////////////////////////////////////////////////////////
-            reg = new Regex("^[А-Яа-яA-Za-z0-9] || ()");
-            RegChecker = null;
-            Console.Write("Enter student subid >>");
-            RegChecker = Console.ReadLine();
-            while (!reg.IsMatch(RegChecker)) // цикл если условие не выполняется.
-            {
-                Console.WriteLine("Not in accordance with the rules, please try again.");
-                Console.Write("Enter student subid >>");
-                RegChecker = Console.ReadLine();
-            }
-            ParamList.Add(RegChecker);
+            reg = @"^[А-Яа-яA-Za-z0-9] || ()";
+            Question = "Enter student subid >>";
+            Console.Write(Question);
+            ParamList.Add(InputDataRegCheck(Console.ReadLine(), reg, Question));
             //////////////////////////////////////////////////////////////////////////
-            reg = new Regex("[0-9]{1} || () ");
-            Console.Write("Enter student Cource >>");
-            RegChecker = Console.ReadLine();
-            while (!reg.IsMatch(RegChecker)) // цикл если условие не выполняется.
-            {
-                Console.WriteLine("Not in accordance with the rules, please try again.");
-                Console.Write("Enter student Cource >>");
-                RegChecker = Console.ReadLine();
-
-            }
-            ParamList.Add(RegChecker);
-            ///////////////////////////////////////////////////////////////////////////
-
-            reg = new Regex("^[<>=]{0,2}[0-9][.]{0,1}[0-9]* || ()");
-            RegChecker = null;
-            Console.Write("Enter sign and student GPA >>");
-            RegChecker = Console.ReadLine();
-            while (!reg.IsMatch(RegChecker)) // цикл если условие не выполняется.
-            {
-                Console.WriteLine("Not in accordance with the rules, please try again.");
-                Console.Write("Enter sign and student GPA >>");
-                RegChecker = Console.ReadLine();
-            }
-            ParamList.Add(RegChecker);
+            reg = @"^[0-9]{1} || () ";
+            Question = "Enter student Cource >>";
+            Console.Write(Question);
+            ParamList.Add(InputDataRegCheck(Console.ReadLine(), reg, Question));
+            //////////////////////////////////////////////////////////////////////////
+            reg = @"^[<>=]{0,2}[0-9][.]{0,1}[0-9]* || ()";
+            Question = "Enter sign and student GPA >>";
+            Console.Write(Question);
+            ParamList.Add(InputDataRegCheck(Console.ReadLine(), reg, Question));
             //////////////////////////////////////////////////////////////////////////
             foreach (Controller.Student student in StdDB.FindStudentUsingPharameters(ParamList[0], ParamList[1], ParamList[2], ParamList[3], StdDB.NullStringToIntParser(ParamList[4]), ParamList[5]))
             {
@@ -251,7 +160,7 @@ namespace LR_2_code_Cch.View
 
         void GetStudentsList()
         {
-            Console.WriteLine("{0}\n\n",StdDB.GetStudentsList());
+            Console.WriteLine("{0}\n\n", StdDB.GetStudentsList());
             UI_Starter();
         }
 

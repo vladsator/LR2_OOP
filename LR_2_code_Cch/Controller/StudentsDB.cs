@@ -8,9 +8,8 @@ namespace LR_2_code_Cch.Controller
 {
     class StudentsDB
     {
-        string DefaultPath = "Students_DB.txt";
         List<Student> StudentList = new List<Student>();
-        Model.StudentManipulation StudentDataManipulator = new Model.StudentManipulation("Students_DB.txt");
+        Model.StudentManipulation StudentDataManipulator = new Model.StudentManipulation();
 
         public StudentsDB()
         {
@@ -29,11 +28,6 @@ namespace LR_2_code_Cch.Controller
             StudentDataManipulator.FilePathGetSet = filepath;
             StudentList.Clear();
             StudentList = StudentDataManipulator.ReadFile();
-            if (StudentList == null)
-            {
-                StudentDataManipulator.FilePathGetSet = DefaultPath;
-                StudentList = StudentDataManipulator.ReadFile();
-            }
         }
 
         public string GetFilePath()

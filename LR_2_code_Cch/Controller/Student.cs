@@ -45,7 +45,6 @@ namespace LR_2_code_Cch.Controller
             switch (format.ToUpperInvariant())
             {
                 case "G":
-                    //return "ID - " + this.StudentID + " Cource - " + this.StudentCource + " Name - " + this.StudentName + " Surname - " + this.StudentSurname + " Sex - " + this.StudentSex + " GPA - " + this.StudentGPA;
                     return String.Format("ID - {0,-9} Cource - {1,-2} Name - {2,-10}  Surname - {3,-10} Sex - {4,-6} GPA - {5}", this.StudentID, this.StudentCource, this.StudentName, this.StudentSurname, this.StudentSex, this.StudentGPA);
                 case "O":
                     return this.StudentName + " " + this.StudentSurname + " " + this.StudentSex + " " + this.StudentID + " " + this.StudentCource + " " + this.StudentGPA;

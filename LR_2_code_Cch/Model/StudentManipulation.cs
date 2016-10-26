@@ -11,9 +11,16 @@ namespace LR_2_code_Cch.Model
     {
         string FilePath;
 
-        public StudentManipulation(string path)
+        Encoding win1251 = Encoding.GetEncoding(1251);
+
+        public StudentManipulation()
         {
-            FilePath = path;
+            FilePath = "Students_DB.txt";
+        }
+
+        public void SetDefaultFilePath()
+        {
+            FilePath = "Students_DB.txt";
         }
 
         public string FilePathGetSet
@@ -35,8 +42,8 @@ namespace LR_2_code_Cch.Model
             List<Controller.Student> StudentList = new List<Controller.Student>();
             try
             {
-                Encoding win1251 = Encoding.GetEncoding(1251);
-                StreamReader file = new StreamReader(FilePath, win1251);               
+
+                StreamReader file = new StreamReader(FilePath, win1251);
                 while ((line = file.ReadLine()) != null)
                 {
                     string[] TempSubStrings = line.Split(' ');
@@ -47,9 +54,10 @@ namespace LR_2_code_Cch.Model
                     catch (FormatException)
                     {
                         Console.WriteLine("Wrong table format (Name, Surname, Sex, ID, Cource GPA)");
-                        
                         Console.ReadKey();
-                        return null;
+                        SetDefaultFilePath();
+                        StudentList = ReadFile();
+                        return StudentList;
                     }
                 }
                 file.Close();
@@ -57,16 +65,30 @@ namespace LR_2_code_Cch.Model
             catch (FileNotFoundException)
             {
                 Console.WriteLine("Ошибка при работе с файлом.");
-                return null; ////////////////////////////////////////////
+                SetDefaultFilePath();
+                StudentList = ReadFile();
+                return StudentList;
             }
             return StudentList;
         }
 
+        //public bool wWriteFile(List<Controller.Student> StudentList)
+        //{
+        //    Encoding win1251 = Encoding.GetEncoding(1251);
+        //    File.WriteAllLines(FilePath, (from item in StudentList select item.ToString("O", null) as string).ToArray(), win1251);
+        //    return true;
+        //}
+
         public bool WriteFile(List<Controller.Student> StudentList)
         {
-            Encoding win1251 = Encoding.GetEncoding(1251);
-            File.WriteAllLines(FilePath, (from item in StudentList select item.ToString("O", null) as string).ToArray(), win1251);
-            return true;
+            using (StreamWriter sw = new StreamWriter(FilePath, false, win1251))
+            {
+                foreach (string str in (from item in StudentList select item.ToString("O", null) as string).ToArray())
+                {
+                    sw.WriteLine(str);
+                }
+                return true;
+            }
         }
     }
 }
