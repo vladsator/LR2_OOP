@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace LR_2_code_Cch.Model
 {
@@ -15,7 +14,7 @@ namespace LR_2_code_Cch.Model
 
         public StudentManipulation()
         {
-            FilePath = "Students_DB.txt";
+            SetDefaultFilePath();
         }
 
         public void SetDefaultFilePath()
@@ -43,24 +42,25 @@ namespace LR_2_code_Cch.Model
             try
             {
 
-                StreamReader file = new StreamReader(FilePath, win1251);
-                while ((line = file.ReadLine()) != null)
+                using (StreamReader file = new StreamReader(FilePath, win1251))
                 {
-                    string[] TempSubStrings = line.Split(' ');
-                    try
+                    while ((line = file.ReadLine()) != null)
                     {
-                        StudentList.Add(new Controller.Student(TempSubStrings[0], TempSubStrings[1], TempSubStrings[2], TempSubStrings[3], int.Parse(TempSubStrings[4]), double.Parse(TempSubStrings[5])));
+                        string[] TempSubStrings = line.Split(' ');
+                        try
+                        {
+                            StudentList.Add(new Controller.Student(TempSubStrings[0], TempSubStrings[1], TempSubStrings[2], TempSubStrings[3], int.Parse(TempSubStrings[4]), double.Parse(TempSubStrings[5])));
+                        }
+                        catch (FormatException)
+                        {
+                            Console.WriteLine("Wrong table format (Name, Surname, Sex, ID, Cource GPA)");
+                            Console.ReadKey();
+                            SetDefaultFilePath();
+                            StudentList = ReadFile();
+                            return StudentList;
+                        }
                     }
-                    catch (FormatException)
-                    {
-                        Console.WriteLine("Wrong table format (Name, Surname, Sex, ID, Cource GPA)");
-                        Console.ReadKey();
-                        SetDefaultFilePath();
-                        StudentList = ReadFile();
-                        return StudentList;
-                    }
-                }
-                file.Close();
+                }      
             }
             catch (FileNotFoundException)
             {

@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LR_2_code_Cch.View
 {

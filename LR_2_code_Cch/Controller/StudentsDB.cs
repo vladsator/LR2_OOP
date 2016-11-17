@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LR_2_code_Cch.Controller
 {
@@ -107,11 +105,8 @@ namespace LR_2_code_Cch.Controller
                         q = q.Where(row => row.StudentGPA != double.Parse(num));
                         break;
                 }
-            }
-            
+            }        
             return q.ToList<Student>();        
         }
-
-
     }
 }

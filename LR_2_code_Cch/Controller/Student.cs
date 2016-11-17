@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Globalization;
 
 namespace LR_2_code_Cch.Controller 
 {
-    class Student : IFormattable//, IDisposable
+    class Student : IFormattable
     {
         public string StudentName;
         public string StudentSurname;
@@ -16,7 +12,7 @@ namespace LR_2_code_Cch.Controller
         public int StudentCource;
         public double StudentGPA;
 
-        //private bool disposed = false;
+        
 
         public Student()
         {
@@ -25,9 +21,6 @@ namespace LR_2_code_Cch.Controller
 
         public Student(string name, string surname, string sex, string id, int cource, double gpa)
         {
-            //if (disposed) throw new ObjectDisposedException(this.ToString());
-            //disposed = false;
-
             StudentName = name;
             StudentSurname = surname;
             StudentSex = sex;
@@ -38,7 +31,6 @@ namespace LR_2_code_Cch.Controller
 
         public string ToString(string format, IFormatProvider provider)
         {
-            //if (disposed) throw new ObjectDisposedException(this.ToString());
             if (String.IsNullOrEmpty(format)) format = "G";
             if (provider == null) provider = CultureInfo.CurrentCulture;
 
@@ -52,10 +44,5 @@ namespace LR_2_code_Cch.Controller
                     throw new FormatException(String.Format("The {0} format string is not supported.", format));
             }
         }
-
-        //public void Dispose()
-        //{
-        //    throw new NotImplementedException();
-        //}
     }
 }
